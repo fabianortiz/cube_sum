@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+ * RUTA '/':
+ * Home del sitio
+ */
+
+Route::get('/', ['uses' => 'SummationController@index']);
+Route::post('summation', ['as' => 'summation','uses' => 'SummationController@makeSummation']);
+
+
+
+
