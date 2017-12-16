@@ -17,7 +17,7 @@
  */
 
 Route::get('/', ['uses' => 'SummationController@index']);
-Route::post('summation', ['as' => 'summation','uses' => 'SummationController@makeSummation']);
+Route::post('summation', ['uses' => 'SummationController@makeSummation']);
 
 
 

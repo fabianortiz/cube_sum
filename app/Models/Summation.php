@@ -60,26 +60,32 @@ class Summation extends Model
         
         while($test_case_counter <= $T)
         {
+            if(!array_key_exists($next_case_i, $arr_rows))
+            {
+                $this->response_str = "Error: Faltan Casos de Prueba ($T definidos)";
+                return false;
+            }
+            
             $response .= "<h3>Test Case $test_case_counter</h3>";
             $n_m = explode(" ", $arr_rows[$next_case_i]);
 
             //  Validate 'N M' format for each test case
             if(count($n_m) != 2)
             {
-                $this->response_str = "Error l&iacute;nea ".($next_case_i+1).": Los par&ametros del caso de prueba no cumplen con el formato 'N M'";
+                $this->response_str = "Error Test Case #$test_case_counter: Los par&ametros del caso de prueba no cumplen con el formato 'N M'";
                 return false;
                 
             }
             //  Validate if 1 <= N <= 100 
             elseif(!is_numeric($n_m[0]) || !($n_m[0] >= 1 && $n_m[0] <= 100)) 
             {
-                $this->response_str = "Error l&iacute;nea ".($next_case_i+1).": N debe ser un numero entre 1 y 100";
+                $this->response_str = "Error Test Case #$test_case_counter: N debe ser un numero entre 1 y 100";
                 return false;
             }
             //  Validate if 1 <= M <= 1000
             elseif(!is_numeric($n_m[1]) || !($n_m[1] >= 1 && $n_m[1] <= 100)) 
             {
-                $this->response_str = "Error l&iacute;nea ".($next_case_i+1).": M debe ser un numero entre 1 y 1000";
+                $this->response_str = "Error Test Case #$test_case_counter: M debe ser un numero entre 1 y 1000";
                 return false;
             }
             else
@@ -99,14 +105,14 @@ class Summation extends Model
                 {   
                     if(!array_key_exists($j, $arr_rows))
                     {
-                        $this->response_str = "Error l&iacute;nea $j: Faltan operaciones ($M definidas)";
+                        $this->response_str = "Error Test Case #$test_case_counter: Faltan operaciones ($M definidas)";
                         return false;
                     }
                     $operacion = explode(" ",$arr_rows[$j]);
                     $summation = 0;
                     
                     if(count($operacion) < 1){
-                        $this->response_str = "Error l&iacute;nea $j: No es posible determinar la operacion";
+                        $this->response_str = "Error Test Case #$test_case_counter: No es posible determinar la operacion";
                         return false;
                     }
 
@@ -114,7 +120,7 @@ class Summation extends Model
                     if(strtoupper($operacion[0]) == "UPDATE")
                     {
                         if(count($operacion) != 5){
-                            $this->response_str = "Error l&iacute;nea $j: La operacion UPDATE debe tener exactamete 4 par&aacute;metros";
+                            $this->response_str = "Error Test Case #$test_case_counter: La operacion UPDATE debe tener exactamete 4 par&aacute;metros";
                             return false;
                         }
 
@@ -124,7 +130,7 @@ class Summation extends Model
                            (!is_numeric($operacion[4]) || !($operacion[4] >= -1000000000 && $operacion[4] <= 1000000000)))
 
                         {
-                            $this->response_str = "Error l&iacute;nea $j: Par&aacute;metros de UPDATE incorrectos";
+                            $this->response_str = "Error Test Case #$test_case_counter: Par&aacute;metros de UPDATE incorrectos";
                             return false;
                         }
 
@@ -143,7 +149,7 @@ class Summation extends Model
                     elseif(strtoupper($operacion[0]) == "QUERY")
                     {
                         if(count($operacion) != 7){
-                            $this->response_str = "Error l&iacute;nea $j: La operacion QUERY debe tener exactamete 6 par&aacute;metros";
+                            $this->response_str = "Error Test Case #$test_case_counter: La operacion QUERY debe tener exactamete 6 par&aacute;metros";
                             return false;
                         }
 
@@ -155,7 +161,7 @@ class Summation extends Model
                            (!is_numeric($operacion[6]) || !($operacion[6] >= 1 && $operacion[6] <= $N)) )
 
                         {
-                            $this->response_str = "Error l&iacute;nea $j: Par&aacute;metros de QUERY incorrectos";
+                            $this->response_str = "Error Test Case #$test_case_counter: Par&aacute;metros de QUERY incorrectos";
                             return false;
                         }
 
@@ -182,7 +188,7 @@ class Summation extends Model
                     //  Invalid Operation
                     else
                     {
-                        $this->response_str = "Error l&iacute;nea $j: Operaci&oacute;n no v&aacute;lida ".strtoupper($operacion[0]);
+                        $this->response_str = "Error Test Case #$test_case_counter: Operaci&oacute;n no v&aacute;lida: '".strtoupper($operacion[0]."'");
                         return false;
                     }
                     $j++;
@@ -223,7 +229,7 @@ class Summation extends Model
         //   Validating minimum number of rows (3: T, N M, UPDATE/QUERY)
         if(count($arr_rows) < 3)
         {
-            $this->response_str = "Error l&iacute;nea 1: La entrada debe indicar como m&iacute;nimo 3 l&iacute;neas.";
+            $this->response_str = "Error: La entrada debe indicar como m&iacute;nimo 3 l&iacute;neas.";
             return false;
         }   
 

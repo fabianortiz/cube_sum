@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Models\Summation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class SummationController extends Controller
 {
@@ -32,7 +32,10 @@ class SummationController extends Controller
         $summation = new Summation();
         $process_sum = $summation->makeSummation($request->input('entrada'));
         
-        echo $summation->getResponseStr();
+        $response = array('status' => $process_sum,
+                            'output' => $summation->getResponseStr());
+        
+        return Response::json($response);
         
         
         
